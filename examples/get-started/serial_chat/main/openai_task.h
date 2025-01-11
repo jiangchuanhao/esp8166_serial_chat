@@ -10,7 +10,7 @@
 #include "esp_tls.h"
 #include "esp_http_client.h"
 
-#define OPENAI_API_KEY "sk-c2fb1a4d5c7e473da7f841ae76e92f06" // 替换为你的 OpenAI API Key
+#define OPENAI_API_KEY "sk-c2fb1a4d5c7e473dxxxx1ae76e92f06" // 替换为你的  API Key
 #define OPENAI_API_HOST "api.deepseek.com"
 #define OPENAI_API_PATH "/chat/completions"
 

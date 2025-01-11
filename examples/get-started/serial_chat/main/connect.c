@@ -31,10 +31,10 @@ static ip4_addr_t s_ip_addr;
 
 // 定义多个 Wi-Fi 网络
 static const char *wifi_networks[][2] = {
-    {"CMCC-HLKY", "lgkg@rabbit"},   // Wi-Fi 1
-    {"HONOR 200", "12345678"},      // Wi-Fi 2
-    {"CMCC-HLKY", "      @rabbit"}, // Wi-Fi 3
-                                    // 添加更多 Wi-Fi 网络
+    {"xxxx", "12345678"}, // Wi-Fi 1
+    {"xxxx", "12345678"}, // Wi-Fi 2
+    {"xxxx", "12345678"}, // Wi-Fi 3
+                          // 添加更多 Wi-Fi 网络
 };
 static int current_wifi_index = 0; // 当前尝试连接的 Wi-Fi 索引
 

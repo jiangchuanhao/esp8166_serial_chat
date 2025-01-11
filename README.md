@@ -2,22 +2,25 @@
 
 [![Documentation Status](https://readthedocs.com/projects/espressif-esp8266-rtos-sdk/badge/?version=latest)](https://docs.espressif.com/projects/esp8266-rtos-sdk/en/latest/?badge=latest)
 
-
 # ** IMPORTANT NOTICE **
 
 ## About this repository
+
 A new branching model is applied to this repository, which consists of a master branch and release branches.
 
 ### 1. Master branch
+
 The master branch is an integration branch where bug fixes/features are gathered for compiling and functional testing.
 
 ### 2. Release branch
+
 The release branch is where releases are maintained and hot fixes (with names like *release/v2.x.x*) are added.
 Please ensure that all your production-related work are tracked with the release branches.
 
 With this new model, we can push out bug fixes more quickly and achieve simpler maintenance.
 
 ## Roadmap
+
 *ESP8266_RTOS_SDK*'s framework is quite outdated and different from the current *[esp-idf](https://github.com/espressif/esp-idf)* and we are planning to migrate *ESP8266_RTOS_SDK* to *esp-idf* eventually after *v2.0.0*.
 
 However, we will firstly provide a new version of ESP8266 SDK (*ESP8266_RTOS_SDK v3.0*), which shares the same framework with *esp-idf* (esp-idf style), as a work-around, because the multi-CPU architecture is not supported by *esp-idf* for the time being.
@@ -66,11 +69,13 @@ ESP8266_RTOS_SDK will be downloaded into `~/esp/ESP8266_RTOS_SDK`.
 The toolchain programs access ESP8266_RTOS_SDK using `IDF_PATH` environment variable. This variable should be set up on your PC, otherwise projects will not build. Setting may be done manually, each time PC is restarted. Another option is to set up it permanently by defining `IDF_PATH` in user profile.
 
 For manually, the command:
+
 ```
 export IDF_PATH=~/esp/ESP8266_RTOS_SDK
 ```
 
 ## Start a Project
+
 Now you are ready to prepare your application for ESP8266. To start off quickly, we can use `examples/get-started/hello_world` project from `examples` directory in SDK.
 
 Once you've found the project you want to work with, change to its directory and you can configure and build it.
@@ -91,7 +96,7 @@ make menuconfig
 In the menu, navigate to `Serial flasher config` > `Default serial port` to configure the serial port, where project will be loaded to. Confirm selection by pressing enter, save configuration by selecting `< Save >` and then exit application by selecting `< Exit >`.
 
 > Note:
-	On Windows, serial ports have names like COM1. On MacOS, they start with `/dev/cu.`. On Linux, they start with `/dev/tty`.
+> On Windows, serial ports have names like COM1. On MacOS, they start with `/dev/cu.`. On Linux, they start with `/dev/tty`.
 
 Here are couple of tips on navigation and use of `menuconfig`:
 
@@ -172,3 +177,22 @@ git pull
 ```
 
 The ``git pull`` command is fetching and merging changes from ESP8266_RTOS_SDK repository on GitHub.
+
+
+## 增加serial_chat程序
+
+在example/get-started目录下增加serial_chat功能，主要功能是ESP8266调用deepseek的API实现对话功能。电脑串口连接到ESP8266模块后，通过网页端收发串口数据，实现在无网络的电脑上进行简单的对话功能，用来进行一些简单的AI辅助功能。
+
+### 不足
+
+受到本人能力和空闲时间限制，对话功能目前只是简单能用，功能暂未实现得像其他客户端那么完善，还有下面几个点可以优化：
+
+1. 受到ESP8266内存容量限制和个人能力限制，ESP8266内部对话的缓存空间限制在24KB左右，这个应该可以修改API请求模式为非stream模式实现，ESP8266不必存储完整对话内容；
+2. 目前只支持单轮对话，无上下文记忆功能，这个可以在ESP8266和电脑端之间增加通信格式控制，上下文存储在电脑端实现；
+3. api请求模式为not steam模式，对话会等待全部完成后再一次性返回响应结果，延迟较大；
+
+### 使用
+
+1. 搭建SDK开发环境，进入example/get-started目录，配置wifi账号和密码后，编译得到烧写文件。
+2. 连接ESP8266模块，使用SDK烧写或烧写工具进行烧写，烧写完成后切换ESP8266模块启动模式管脚，重新复位或上电后启动程序。
+3. 使用浏览器打开example/get-started/serialChat目录下的**index.html**，在浏览器界面先选择使用的串口端口号，就可以正常聊天了。

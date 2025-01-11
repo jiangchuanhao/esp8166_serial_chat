@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#chat-container {
+    width: 90%; /* 使用百分比宽度，适应浏览器窗口 */
+    max-width: 800px; /* 设置最大宽度，避免对话框过宽 */
+    min-width: 300px; /* 设置最小宽度，避免对话框过窄 */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 90vh; /* 设置对话框高度为视口高度的 90% */
+}
+
+#chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+#input-area {
+    display: flex;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    resize: vertical; /* 允许用户垂直调整输入框大小 */
+    min-height: 40px; /* 设置最小高度 */
+    max-height: 450px; /* 设置最大高度，避免输入框过高 */
+    overflow-y: auto; /* 当内容超出高度时显示滚动条 */
+    font-family: Arial, sans-serif; /* 保持字体一致 */
+    font-size: 14px; /* 设置字体大小 */
+}
+
+#send-btn {
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    color: #070707;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#send-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.message {
+    margin-bottom: 15px;
+}
+
+.user-message {
+    text-align: right;
+}
+
+.bot-message {
+    text-align: left;
+}
+
+.message-content {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 4px;
+    max-width: 80%;
+}
+
+.user-message .message-content {
+    background-color: #bdd8d1;
+    color: #080808;
+    text-align: left; /* 内部文本靠左 */
+    display: inline-block; /* 使消息框宽度根据内容调整 */
+    max-width: 80%; /* 设置最大宽度，避免消息框过宽 */
+    margin-left: auto; /* 靠右对齐 */
+    margin-right: 0; /* 靠右对齐 */
+}
+
+.bot-message .message-content {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+#init-serial-btn, #send-btn {
+    padding: 10px 15px;
+    background-color: #f1f1f1;
+    color: rgb(5, 5, 5);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#init-serial-btn:hover, #send-btn:hover {
+    background-color: #f1f1f1;
+}
+.message-content code {
+    background-color: #e9ecef; /* 更深的背景颜色 */
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #d63384; /* 更醒目的字体颜色 */
+    /*border: 1px solid #ced4da; /* 添加边框 */
+}
+
+.message-content pre {
+    background-color: #e9ecef; /* 更深的背景颜色 */
+    padding: 10px;
+    border-radius: 4px;
+    overflow-x: auto;
+    border: 1px solid #ced4da; /* 添加边框 */
+}
+
+.message-content pre code {
+    background-color: transparent;
+    padding: 0;
+    color: inherit; /* 继承 pre 的字体颜色 */
+}
+/* 复制按钮样式 */
+.copy-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #b8d5f362;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-button:hover {
+    background-color: #b8d5f362;
+}
