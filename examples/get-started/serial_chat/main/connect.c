@@ -31,10 +31,10 @@ static ip4_addr_t s_ip_addr;
 
 // 定义多个 Wi-Fi 网络
 static const char *wifi_networks[][2] = {
-    {"xxxx", "12345678"}, // Wi-Fi 1
-    {"xxxx", "12345678"}, // Wi-Fi 2
-    {"xxxx", "12345678"}, // Wi-Fi 3
-                          // 添加更多 Wi-Fi 网络
+    {"CMCC-HLKY", "12345678"}, // Wi-Fi 1
+    {"HONOR 200", "12345678"}, // Wi-Fi 2
+    {"CMCC-HLKY", "12345678"}, // Wi-Fi 3
+                               // 添加更多 Wi-Fi 网络
 };
 static int current_wifi_index = 0; // 当前尝试连接的 Wi-Fi 索引
 
@@ -57,7 +57,17 @@ static void on_wifi_disconnect(void *arg, esp_event_base_t event_base,
   }
 
   // 尝试连接下一个 Wi-Fi 网络
-  current_wifi_index = (current_wifi_index + 1) % (sizeof(wifi_networks) / sizeof(wifi_networks[0]));
+  current_wifi_index = (current_wifi_index + 1) % 3;
+  wifi_config_t wifi_config = {0};
+
+  // 设置当前 Wi-Fi 网络的 SSID 和密码
+  strncpy((char *)&wifi_config.sta.ssid, wifi_networks[current_wifi_index][0], 32);
+  strncpy((char *)&wifi_config.sta.password, wifi_networks[current_wifi_index][1], 32);
+
+  ESP_LOGI(TAG, "Connecting to %s...", wifi_config.sta.ssid);
+  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+  ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
+  // ESP_ERROR_CHECK(esp_wifi_start());
   ESP_ERROR_CHECK(esp_wifi_connect());
 }
 
