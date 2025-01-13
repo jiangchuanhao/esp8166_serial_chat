@@ -23,42 +23,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function listenToSerial() {
-        let buffer = ''; // 用于存储接收到的数据
-        let timeoutId;   // 超时计时器
 
-        const timeoutDuration = 100; // 超时时间（单位：毫秒）
-        const textDecoder = new TextDecoder('utf-8'); // 创建 UTF-8 解码器
 
-        while (true) {
-            const { value, done } = await reader.read();
-            if (done) {
-                reader.releaseLock();
-                break;
-            }
+async function listenToSerial() {
+    let buffer = ''; // 用于存储接收到的数据
+    let timeoutId;   // 超时计时器
 
-            // 将接收到的字节数据解码为 UTF-8 字符串
-            const data = textDecoder.decode(value, { stream: true });
-            buffer += data;
+    const timeoutDuration = 100; // 超时时间（单位：毫秒）
+    const textDecoder = new TextDecoder('utf-8'); // 创建 UTF-8 解码器
 
-            // 重置超时计时器
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-            }
-
-            // 设置新的超时计时器
-            timeoutId = setTimeout(() => {
-                // 超时后，将 buffer 中的内容作为完整的一段话处理
-                if (buffer.trim()) {
-                    // 将 \n 替换为 <br> 以便在 HTML 中显示换行
-                    const formattedMessage = buffer.replace(/\\n/g, '\n');
-                    appendMessage('bot', formattedMessage);
-                    buffer = ''; // 清空 buffer
-                }
-            }, timeoutDuration);
+    while (true) {
+        const { value, done } = await reader.read();
+        if (done) {
+            reader.releaseLock();
+            break;
         }
-    }
 
+        // 将接收到的字节数据解码为 UTF-8 字符串
+        const data = textDecoder.decode(value, { stream: true });
+        buffer += data;
+
+        // 重置超时计时器
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        // 设置新的超时计时器
+        timeoutId = setTimeout(() => {
+            // 超时后，将 buffer 中的内容作为完整的一段话处理
+            if (buffer.trim()) {
+                try {
+                    // 解析 JSON 数据
+                    const jsonData = JSON.parse(buffer);
+                    // 提取 content 字段的内容
+                    const content = extractContent(jsonData);
+                    // 将 content 内容显示
+                    appendMessage('bot', content);
+                } catch (error) {
+                    console.error('JSON 解析失败:', error);
+                    appendMessage('bot', '接收到的数据格式不正确');
+                }
+                buffer = ''; // 清空 buffer
+            }
+        }, timeoutDuration);
+    }
+}
+
+/**
+ * 提取 JSON 数据中的 content 字段内容
+ * @param {Object} jsonData - 输入的 JSON 数据
+ * @returns {string} - 返回 content 字段的内容
+ */
+function extractContent(jsonData) {
+    // 检查是否存在 choices 字段，并且 choices 数组不为空
+    if (jsonData.choices && jsonData.choices.length > 0) {
+        // 返回第一个 choice 的 message.content
+        return jsonData.choices[0].message.content;
+    }
+    // 如果 content 字段不存在，返回空字符串或默认提示
+    return '未找到 content 字段';
+}
+  
     async function sendSerialMessage(message) {
         if (writer) {
             const data = new TextEncoder().encode(message);

@@ -76,8 +76,8 @@ void uart_task(void *pvParameters)
     }
     else if (chat->state == SERIAL_OUTPUT)
     {
-      ParseRecvResponse(chat);
-      // printf("%.*s\r\n", chat->length, chat->buffer);
+      // ParseRecvResponse(chat);
+      // printf("%s", chat->buffer);
       chat->state = SERIAL_INPUT;
     }
   }

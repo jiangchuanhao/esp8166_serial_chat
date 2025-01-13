@@ -151,9 +151,11 @@ esp_err_t http_event_handler(esp_http_client_event_t *evt)
 
     if (evt->user_data)
     {
-      *(char *)(chat->buffer + output_len + 1) = '\0';
-      // ESP_LOGI(TAG, "%s", chat->buffer);
+      *(char *)(chat->buffer + output_len) = '\0';
       chat->length = output_len;
+      ets_printf("%s", chat->buffer);
+      // os_printf("%.*s", chat->length, chat->buffer);
+
       chat->state = SERIAL_OUTPUT;
       output_len = 0;
       esp_tls_get_and_clear_last_error(evt->data, &mbedtls_err, NULL);
